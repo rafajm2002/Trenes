@@ -13,7 +13,7 @@ renamed as (
         CODIGO AS codigo_estacion,
         DESCRIPCION AS nombre_estacion,
         LATITUD AS latitud,
-        NGITUD AS longitud,
+        LONGITUD AS longitud,
         DIRECION AS direccion,
         CP as cp,
         POBLACION AS municipio,
