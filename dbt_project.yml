@@ -48,6 +48,7 @@ models:
     staging:
       +materialized: view
       +database: "{{ env_var('DBT_ENVIRONMENTS', 'DEV') }}_SILVER_DB"
+      +schema: staging
 
 
     # ------------------------------------------------------------------------
