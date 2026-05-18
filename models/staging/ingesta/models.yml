@@ -1,0 +1,431 @@
+version: 2
+
+models:
+
+  - name: stg__estaciones
+    description: >
+      Vista staging de estaciones de transporte. Contiene la información
+      normalizada de estaciones incluyendo ubicación geográfica, códigos
+      internos y servicios disponibles.
+
+    columns:
+
+      - name: id_estacion
+        description: Identificador único de la estación.
+        tests:
+          - unique
+          - not_null
+
+      - name: codigo_estacion
+        description: Código interno de la estación.
+        tests:
+          - not_null
+
+      - name: nombre_estacion
+        description: Nombre o descripción de la estación.
+        tests:
+          - not_null
+
+      - name: latitud
+        description: Coordenada de latitud de la estación.
+        tests:
+          - not_null
+
+      - name: longitud
+        description: Coordenada de longitud de la estación.
+        tests:
+          - not_null
+
+      - name: direccion
+        description: Dirección física de la estación.
+
+      - name: cp
+        description: Código postal de la estación.
+        tests:
+          - not_null
+
+      - name: municipio
+        description: Ciudad o población donde se encuentra la estación.
+        tests:
+          - not_null
+
+      - name: provincia
+        description: Provincia donde se ubica la estación.
+        tests:
+          - not_null
+
+      - name: pais
+        description: País de la estación.
+        tests:
+          - not_null
+
+      - name: cercanias
+        description: Indicador de servicio de cercanías.
+
+      - name: feve
+        description: Indicador de servicio FEVE.
+
+      - name: comun
+        description: Indicador de conexión con red común.
+  
+  - name: stg__retrasos
+    description: >
+      Vista staging de retrasos en los viajes. Contiene información sobre
+      la duración del retraso, el motivo y si está relacionado con el clima.
+
+    columns:
+
+      - name: id_retraso
+        description: Identificador único del retraso.
+        tests:
+          - unique
+          - not_null
+
+      - name: id_viaje
+        description: Identificador del viaje afectado por el retraso.
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg__viajes')
+                field: id_viaje
+
+      - name: minutos_retraso
+        description: Duración del retraso en minutos.
+        tests:
+          - not_null
+
+      - name: motivo_retraso
+        description: Motivo del retraso reportado.
+
+      - name: relacion_meteorologica
+        description: Indicador de si el retraso está relacionado con condiciones meteorológicas.
+
+  - name: stg__pasajeros
+    description: >
+      Vista staging de pasajeros. Contiene información personal y de contacto
+      de los pasajeros registrados en el sistema, con limpieza y deduplicación de datos.
+
+    columns:
+
+      - name: id_pasajero
+        description: Identificador único del pasajero.
+        tests:
+          - unique
+          - not_null
+
+      - name: nombre
+        description: Nombre del pasajero.
+        tests:
+          - not_null
+
+      - name: apellidos
+        description: Apellidos del pasajero.
+        tests:
+          - not_null
+
+      - name: dni
+        description: Documento Nacional de Identidad del pasajero.
+        tests:
+          - not_null
+
+      - name: fecha_nacimiento
+        description: Fecha de nacimiento del pasajero.
+
+      - name: telefono
+        description: Número de teléfono del pasajero, limpio de espacios.
+
+      - name: email
+        description: Correo electrónico del pasajero en minúsculas.
+
+      - name: ciudad
+        description: Ciudad de residencia del pasajero.
+
+  - name: stg__ventas
+    description: >
+      Vista staging de ventas de billetes. Contiene información sobre los
+      viajes comprados por los pasajeros, el importe, el tipo de billete y los
+      canales de venta.
+
+    columns:
+
+      - name: id_venta
+        description: Identificador único de la venta.
+        tests:
+          - unique
+          - not_null
+
+      - name: id_viaje
+        description: Identificador del viaje asociado a la venta.
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg__viajes')
+                field: id_viaje
+
+      - name: id_pasajero
+        description: Identificador del pasajero asociado a la venta.
+        tests:
+          - not_null
+          - relationships:
+              arguments: 
+                to: ref('stg__pasajeros')
+                field: id_pasajero
+
+      - name: tipo
+        description: Tipo de billete o tarifa.
+
+      - name: num_tickets_vendidos
+        description: Número de tickets vendidos en esta transacción.
+        tests:
+          - not_null
+
+      - name: importe
+        description: Importe total de la venta.
+        tests:
+          - not_null
+
+      - name: canal
+        description: Canal de venta utilizado (online, taquilla, agencia, etc.).
+
+      - name: fecha_origen
+        description: Fecha de inicio del viaje.
+        tests:
+          - not_null
+
+      - name: fecha_destino
+        description: Fecha de fin del viaje.
+        tests:
+          - not_null
+
+      - name: id_estacion_origen
+        description: Identificador de la estación de origen del viaje.
+        tests:
+          - not_null
+          - relationships:
+              arguments: 
+                to: ref('stg__estaciones')
+                field: id_estacion
+
+      - name: id_estacion_destino
+        description: Identificador de la estación de destino del viaje.
+        tests:
+          - not_null
+          - relationships:
+              arguments: 
+                to: ref('stg__estaciones')
+                field: id_estacion
+
+      - name: loaded_synced
+        description: Indicador de si la fila ha sido cargada y sincronizada desde la fuente.
+        tests:
+          - not_null
+
+  - name: stg__rutas
+    description: >
+      Tabla staging de rutas de transporte. Contiene información sobre
+      las rutas, estaciones de origen y destino, número de paradas,
+      distancia, duración, velocidad media y frecuencia diaria.
+
+    columns:
+
+      - name: id_ruta
+        description: Identificador único de la ruta.
+        tests:
+          - unique
+          - not_null
+
+      - name: servicio
+        description: Tipo de servicio asociado a la ruta (por ejemplo, regional, interurbano).
+
+      - name: id_estacion_origen
+        description: Identificador de la estación de origen de .
+        tests:
+          - not_null
+          - relationships:
+              arguments: 
+                to: ref('stg__estaciones')
+                field: id_estacion
+
+      - name: nombre_estacion_origen
+        description: Nombre de la estación de origen.
+        tests:
+          - not_null
+
+      - name: id_estacion_destino
+        description: Identificador de la estación de destino de la ruta.
+        tests:
+          - not_null
+          - relationships:
+              arguments: 
+                to: ref('stg__estaciones')
+                field: id_estacion      
+
+      - name: nombre_estacion_destino
+        description: Nombre de la estación de destino.
+        tests:
+          - not_null
+
+      - name: num_paradas
+        description: Número de paradas de la ruta.
+        tests:
+          - not_null
+
+      - name: distancia_total_km
+        description: Distancia total de la ruta en kilómetros.
+        tests:
+          - not_null
+
+      - name: duracion_total_min
+        description: Duración total de la ruta en minutos.
+        tests:
+          - not_null
+
+      - name: velocidad_media_kmh
+        description: Velocidad media de la ruta en km/h.
+        tests:
+          - not_null
+
+      - name: frecuencia_diaria
+        description: Frecuencia diaria de la ruta.
+        tests:
+          - not_null
+
+  - name: stg__trenes
+    description: >
+      Tabla staging de trenes. Contiene los identificadores únicos de los
+      trenes y su descripción asociada.
+
+    columns:
+
+      - name: id_tren
+        description: Identificador único del tren.
+        tests:
+          - unique
+          - not_null
+
+      - name: id_descripcion
+        description: Identificador de la descripción asociada al tren.
+        tests:
+          - not_null
+          - relationships:
+              arguments: 
+                to: ref('stg__tren_descripcion')
+                field: id_descripcion
+
+  - name: stg__tren_descripcion
+    description: >
+      Tabla staging de descripción de trenes. Contiene información detallada
+      sobre el modelo, propósito, dimensiones, potencia, velocidad, capacidad,
+      y otros atributos técnicos de los trenes.
+
+    columns:
+
+      - name: id_descripcion
+        description: Identificador único de la descripción del tren.
+        tests:
+          - unique
+          - not_null
+
+      - name: modelo
+        description: Modelo del tren.
+        tests:
+          - not_null
+
+      - name: proposito
+        description: Propósito del tren (carga, pasajeros).
+
+      - name: ancho_via_m
+        description: Ancho de vía en metros.
+
+      - name: velocidad_max_kmh
+        description: Velocidad máxima del tren en km/h.
+
+      - name: motores
+        description: Tipo o número de motores del tren.
+
+      - name: potencia_total_kw
+        description: Potencia total en kilovatios (kW).
+
+      - name: tension_kv
+        description: Tensión eléctrica en kV.
+
+      - name: masa_sin_carga_t
+        description: Masa del tren sin carga en toneladas.
+
+      - name: longitud_total_m
+        description: Longitud total del tren en metros.
+
+      - name: plazas_sentadas
+        description: Número de plazas sentadas del tren.
+
+      - name: senalizacion
+        description: Sistema de señalización del tren.
+
+      - name: constructor
+        description: Constructor del tren.
+
+      - name: unidades_construidas
+        description: Número de unidades construidas.
+  
+  - name: stg__viajes
+    description: >
+      Tabla staging de viajes. Contiene información de los viajes,
+      incluyendo la ruta, el tren asignado, horarios, distancia,
+      duración y tipo de servicio.
+
+    columns:
+
+      - name: id_viaje
+        description: Identificador único del viaje.
+        tests:
+          - unique
+          - not_null
+
+      - name: id_ruta
+        description: Identificador de la ruta asociada al viaje.
+        tests:
+          - not_null
+          - relationships: 
+              arguments: 
+                to: ref('stg__rutas')
+                field: id_ruta
+ 
+      - name: id_tren
+        description: Identificador del tren que realiza el viaje.
+        tests:
+          - not_null
+          - relationships: 
+              arguments: 
+                to: ref('stg__trenes')
+                field: id_tren
+
+      - name: hora_salida
+        description: Hora de salida del viaje.
+        tests:
+          - not_null
+
+      - name: hora_llegada
+        description: Hora de llegada del viaje.
+        tests:
+          - not_null
+      
+      - name: fecha_viaje
+        description: Fecha del viaje
+        tests:
+          - not_null          
+
+      - name: distancia_km
+        description: Distancia del viaje en kilómetros.
+
+      - name: duracion_min
+        description: Duración del viaje en minutos.
+        tests:
+          - not_null
+
+      - name: tipo_servicio
+        description: Tipo de servicio del viaje (por ejemplo, regional, interurbano).
+
+      - name: fecha_carga
+        description: Fecha en que la fila fue cargada y sincronizada desde la fuente.

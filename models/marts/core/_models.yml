@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: dim_time
+    description: Tabla de fechas para la semantic layer
+
+    time_spine:
+      standard_granularity_column: date_day
+
+    columns:
+      - name: date_day
+        description: Día
+        granularity: day
