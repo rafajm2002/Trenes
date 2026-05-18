@@ -1,0 +1,265 @@
+version: 2
+
+sources:
+  - name: ingesta
+    description: >
+      Datos brutos de estaciones de transporte cargados en el esquema INGESTA
+      dentro de DEV_BRONZE_DB. Fuente principal para procesos de limpieza y staging.
+
+    database: "{{ env_var('DBT_ENVIRONMENTS', 'FAIL') }}_BRONZE_DB"
+    schema: ingesta
+
+    tables:
+      - name: estaciones
+        description: >
+          Tabla que contiene información de estaciones de transporte
+          incluyendo ubicación geográfica, identificadores y metadatos.
+
+        columns:
+          - name: _ID
+            description: Identificador único de la estación.
+            tests:
+              - unique
+              - not_null
+
+          - name: CODIGO
+            description: Código interno de la estación.
+
+          - name: DESCRIPCION
+            description: Nombre o descripción de la estación.
+
+          - name: LATITUD
+            description: Latitud geográfica de la estación.
+
+          - name: LONGITUD
+            description: Longitud geográfica de la estación.
+
+          - name: DIRECION
+            description: Dirección física de la estación.
+
+          - name: CP
+            description: Código postal de la estación.
+
+          - name: POBLACION
+            description: Ciudad o población donde se encuentra la estación.
+
+          - name: PROVINCIA
+            description: Provincia donde se ubica la estación.
+
+          - name: PAIS
+            description: País de la estación.
+
+          - name: CERCANIAS
+            description: Indicador de servicio de cercanías.
+
+          - name: FEVE
+            description: Indicador de servicio FEVE.
+
+          - name: COMUN
+            description: Indicador de conexión con red común.
+      
+      - name: retrasos
+        description: >
+          Tabla que registra retrasos en trayectos, incluyendo duración del retraso,
+          motivo y si está relacionado con condiciones meteorológicas.
+
+        columns:
+          - name: DELAY_ID
+            description: Identificador único del registro de retraso.
+            tests:
+              - unique
+              - not_null
+
+          - name: TRIP_ID
+            description: Identificador del viaje asociado al retraso.
+            tests:
+              - not_null
+
+          - name: DELAY_MINUTES
+            description: Duración del retraso en minutos.
+
+          - name: DELAY_REASON
+            description: Motivo del retraso.
+
+          - name: WEATHER_RELATED
+            description: Indica si el retraso está relacionado con condiciones meteorológicas.
+      
+      - name: ventas
+        description: >
+          Tabla que registra las ventas de billetes, incluyendo información del viaje,
+          pasajero, estaciones de origen/destino, importes y canal de venta.
+
+        columns:
+          - name: ID_SALE
+            description: Identificador único de la venta.
+            tests:
+              - unique
+              - not_null
+
+          - name: TRIP_ID
+            description: Identificador del viaje asociado a la venta.
+            tests:
+              - not_null
+
+          - name: PASSENGER_ID
+            description: Identificador del pasajero.
+
+          - name: TIPO
+            description: Tipo de billete o tarifa aplicada.
+
+          - name: NUM_TICKETS_VENDIDOS
+            description: Número de billetes vendidos en la transacción.
+
+          - name: IMPORTE
+            description: Importe total de la venta.
+
+          - name: CANAL
+            description: Canal de venta (online, taquilla, app, etc).
+
+          - name: FECHA_ORIGEN
+            description: Fecha y hora de salida del viaje.
+
+          - name: FECHA_DESTINO
+            description: Fecha y hora de llegada del viaje.
+
+          - name: ID_ESTACION_ORIGEN
+            description: ID de la estación de origen.
+
+          - name: ID_ESTACION_DESTINO
+            description: ID de la estación de destino.
+
+          - name: ID_PASAJERO
+            description: Identificador alternativo del pasajero.
+
+          - name: NOMBRE
+            description: Nombre del pasajero.
+
+          - name: APELLIDOS
+            description: Apellidos del pasajero.
+
+          - name: DNI
+            description: Documento de identidad del pasajero.
+
+          - name: FECHA_NACIMIENTO
+            description: Fecha de nacimiento del pasajero.
+
+          - name: TELEFONO
+            description: Teléfono de contacto.
+
+          - name: EMAIL
+            description: Correo electrónico del pasajero.
+
+          - name: CIUDAD
+            description: Ciudad de residencia del pasajero.
+          
+          - name: loaded_synced
+            description: Fecha de carga de datos
+
+      - name: viajes
+        description: >
+          Tabla que contiene información detallada de los viajes realizados,
+          incluyendo rutas, estaciones de origen y destino, tiempos, distancias,
+          características del tren y métricas operativas.
+
+        columns:
+          - name: TRIP_ID
+            description: Identificador único del viaje.
+            tests:
+              - unique
+              - not_null
+
+          - name: ROUTE_ID
+            description: Identificador de la ruta.
+
+          - name: ID_TREN
+            description: Identificador del tren utilizado.
+
+          - name: DEPARTURE
+            description: Fecha y hora de salida del viaje.
+
+          - name: ARRIVAL
+            description: Fecha y hora de llegada del viaje.
+
+          - name: DISTANCE_KM
+            description: Distancia del trayecto en kilómetros.
+
+          - name: DURATION_MIN
+            description: Duración del viaje en minutos.
+
+          - name: SERVICE_TYPE
+            description: Tipo de servicio (alta velocidad, regional, etc).
+
+          - name: SERVICE
+            description: Nombre del servicio.
+
+          - name: ORIGIN_STATION_ID
+            description: ID de la estación de origen.
+
+          - name: ORIGIN_STATION_NAME
+            description: Nombre de la estación de origen.
+
+          - name: DESTINATION_STATION_ID
+            description: ID de la estación de destino.
+
+          - name: DESTINATION_STATION_NAME
+            description: Nombre de la estación de destino.
+
+          - name: NUM_STOPS
+            description: Número de paradas intermedias.
+
+          - name: DISTANCE_KM_TOTAL
+            description: Distancia total del servicio.
+
+          - name: DURATION_MIN_TOTAL
+            description: Duración total del servicio.
+
+          - name: AVG_SPEED_KMH
+            description: Velocidad media del viaje.
+
+          - name: FREQUENCY_DAILY
+            description: Frecuencia diaria del servicio.
+
+          - name: ID_DESCRIPCION
+            description: Identificador descriptivo del tren o servicio.
+
+          - name: MODELO
+            description: Modelo del tren.
+
+          - name: PROPOSITO
+            description: Propósito del servicio.
+
+          - name: ANCHO_VIA
+            description: Tipo de ancho de vía.
+
+          - name: VELOCIDAD_MAXIMA
+            description: Velocidad máxima del tren.
+
+          - name: MOTORES
+            description: Tipo de motores del tren.
+
+          - name: POTENCIA_TOTAL
+            description: Potencia total del tren.
+
+          - name: TENSION
+            description: Sistema de tensión eléctrica.
+
+          - name: MASA_SIN_CARGA
+            description: Peso del tren sin carga.
+
+          - name: LONGITUD_TOTAL
+            description: Longitud total del tren.
+
+          - name: PLAZAS_SENTADAS
+            description: Número de plazas sentadas.
+
+          - name: SENALIZACION
+            description: Sistema de señalización.
+
+          - name: CONSTRUCTOR
+            description: Fabricante del tren.
+
+          - name: UNIDADES_CONSTRUIDAS
+            description: Número de unidades construidas.
+          
+          - name: loaded_synced
+            description: Fecha de carga de datos
