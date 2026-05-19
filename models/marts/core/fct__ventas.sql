@@ -10,7 +10,11 @@ WITH inc AS (
     FROM {{ ref('stg__ventas') }}
 
     {% if is_incremental() %}
-    WHERE fecha_compra > (SELECT MAX(fecha_compra) FROM {{ this }})
+
+    WHERE id_venta NOT IN (
+        SELECT id_venta FROM {{ this }}
+    )
+
     {% endif %}
 
 ),
