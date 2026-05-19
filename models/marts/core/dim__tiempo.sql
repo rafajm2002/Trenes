@@ -67,5 +67,5 @@ final AS (
 
 SELECT *
 FROM final
-WHERE fecha_dia > DATEADD(year, -2, CURRENT_DATE())
+WHERE fecha_dia > DATEADD(year, -4, CURRENT_DATE())
   AND fecha_dia < DATEADD(day, 30, CURRENT_DATE())
