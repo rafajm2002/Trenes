@@ -15,7 +15,7 @@ WITH inc AS (
 
 ),
 
-WITH fct_viajes AS (
+fct_viajes AS (
     SELECT
         v.*,
         r.* exclude(id_ruta),
