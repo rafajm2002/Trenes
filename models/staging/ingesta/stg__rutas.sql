@@ -9,11 +9,11 @@ source as (
 renamed as (
 
     select
-        route_id as id_ruta,
+        id_ruta,
         service as servicio,
-        origin_station_id as id_estacion_origen,
+        TRIM(CAST(origin_station_id as VARCHAR)) as id_estacion_origen,
         origin_station_name as nombre_estacion_origen,
-        destination_station_id as id_estacion_destino,
+        TRIM(CAST(destination_station_id as VARCHAR)) as id_estacion_destino,
         destination_station_name as nombre_estacion_destino,
         num_stops as num_paradas,
         distance_km_total as distancia_total_km,

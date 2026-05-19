@@ -162,31 +162,31 @@ sources:
           características del tren y métricas operativas.
 
         columns:
-          - name: TRIP_ID
+          - name: ID_VIAJE
             description: Identificador único del viaje.
             tests:
               - unique
               - not_null
 
-          - name: ROUTE_ID
+          - name: ID_RUTA
             description: Identificador de la ruta.
 
           - name: ID_TREN
             description: Identificador del tren utilizado.
 
-          - name: DEPARTURE
+          - name: HORA_SALIDA
             description: Fecha y hora de salida del viaje.
 
-          - name: ARRIVAL
+          - name: HORA_LLEGADA
             description: Fecha y hora de llegada del viaje.
 
-          - name: DISTANCE_KM
+          - name: DISTANCIA_KM
             description: Distancia del trayecto en kilómetros.
 
-          - name: DURATION_MIN
+          - name: DURACION_MIN
             description: Duración del viaje en minutos.
 
-          - name: SERVICE_TYPE
+          - name: TIPO_SERVICIO
             description: Tipo de servicio (alta velocidad, regional, etc).
 
           - name: SERVICE

@@ -10,7 +10,7 @@ renamed as (
 
     select
         _id as id_estacion,
-        CODIGO AS codigo_estacion,
+        TRIM(CAST(CODIGO AS VARCHAR)) AS codigo_estacion,
         DESCRIPCION AS nombre_estacion,
         LATITUD AS latitud,
         LONGITUD AS longitud,
