@@ -1,12 +1,27 @@
-{{ config(materialized = 'table') }}
+{{ config(
+    materialized='incremental',
+    unique_key='id_viaje',
+    incremental_strategy='merge'
+) }}
 
-WITH fct_viajes AS (
+WITH inc AS (
+
+    SELECT *
+    FROM {{ ref('stg__viajes') }}
+
+    {% if is_incremental() %}
+    WHERE fecha_carga > (SELECT MAX(fecha_carga) FROM {{ this }})
+    {% endif %}
+
+),
+
+fct_viajes AS (
     SELECT
         v.*,
         r.* exclude(id_ruta),
         t.* exclude(id_tren),
         rt.* exclude(id_viaje)
-    FROM {{ ref('stg__viajes') }} v
+    FROM inc v
     LEFT JOIN {{ ref('dim__rutas') }} r ON v.id_ruta = r.id_ruta
     LEFT JOIN {{ ref('dim__trenes') }} t ON v.id_tren = t.id_tren
     LEFT JOIN {{ ref('dim__retrasos') }} rt ON v.id_viaje = rt.id_viaje

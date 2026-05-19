@@ -1,6 +1,21 @@
-{{ config(materialized = 'table') }}
+{{ config(
+    materialized='incremental',
+    unique_key='id_venta',
+    incremental_strategy='merge'
+) }}
 
-WITH fct_ventas AS (
+WITH inc AS (
+
+    SELECT *
+    FROM {{ ref('stg__ventas') }}
+
+    {% if is_incremental() %}
+    WHERE fecha_compra > (SELECT MAX(fecha_compra) FROM {{ this }})
+    {% endif %}
+
+),
+
+fct_ventas AS (
     SELECT
         v.*,
         eo.codigo_estacion AS codigo_estacion_origen,
@@ -12,7 +27,7 @@ WITH fct_ventas AS (
         ed.municipio AS municipio_destino,
         ed.provincia AS provincia_destino,
         p.* exclude(id_pasajero)
-    FROM {{ ref('stg__ventas') }} v
+    FROM inc v
     LEFT JOIN {{ ref('dim__estaciones') }} eo ON v.id_estacion_origen = eo.id_estacion
     LEFT JOIN {{ ref('dim__estaciones') }} ed ON v.id_estacion_destino = ed.id_estacion
     LEFT JOIN {{ ref('dim__pasajeros') }} p ON v.id_pasajero = p.id_pasajero
