@@ -7,14 +7,14 @@ with source as (
 renamed as (
 
     select
-        id_pasajero,
+        passenger_id as id_pasajero,
         initcap(trim(nombre)) as nombre,
         initcap(trim(apellidos)) as apellidos,
         upper(trim(dni)) as dni,
         fecha_nacimiento,
         regexp_replace(telefono, '\\s+', '') as telefono,
         lower(trim(email)) as email,
-        initcap(trim(ciudad)) as ciudad,
+        id_municipio as ciudad,
 
     from source
 

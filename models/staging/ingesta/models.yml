@@ -138,7 +138,7 @@ models:
       - name: email
         description: Correo electrónico del pasajero en minúsculas.
 
-      - name: ciudad
+      - name: id_municipio
         description: Ciudad de residencia del pasajero.
 
   - name: stg__ventas
@@ -216,11 +216,6 @@ models:
               arguments: 
                 to: ref('stg__estaciones')
                 field: id_estacion
-
-      - name: loaded_synced
-        description: Indicador de si la fila ha sido cargada y sincronizada desde la fuente.
-        tests:
-          - not_null
 
   - name: stg__rutas
     description: >

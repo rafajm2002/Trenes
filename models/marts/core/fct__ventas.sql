@@ -16,7 +16,7 @@ WITH fct_ventas AS (
     LEFT JOIN {{ ref('dim__estaciones') }} eo ON v.id_estacion_origen = eo.id_estacion
     LEFT JOIN {{ ref('dim__estaciones') }} ed ON v.id_estacion_destino = ed.id_estacion
     LEFT JOIN {{ ref('dim__pasajeros') }} p ON v.id_pasajero = p.id_pasajero
-    LEFT JOIN {{ ref('dim__tiempo') }} dt ON v.fecha_viaje = dt.fecha_dia
+    LEFT JOIN {{ ref('dim__tiempo') }} dt ON v.fecha_compra = dt.fecha_dia
 )
 
 SELECT * FROM fct_ventas

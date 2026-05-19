@@ -18,10 +18,9 @@ renamed as (
         canal,
         fecha_origen,
         fecha_destino,
-        CAST(fecha_origen AS DATE) AS fecha_viaje,
+        fecha_compra,
         id_estacion_origen,
         id_estacion_destino,
-        loaded_synced
 
     from source
 
