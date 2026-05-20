@@ -2,6 +2,41 @@ version: 2
 
 models:
 
+  - name: stg__municipios
+    description: "Tabla staging de municipios normalizada"
+
+    columns:
+      - name: id_municipio
+        description: "Identificador único del municipio"
+        tests:
+          - not_null
+          - unique
+
+      - name: codigo_postal
+        description: "Código postal"
+        tests:
+          - not_null
+
+      - name: nombre_poblacion
+        description: "Nombre de la población"
+
+      - name: nombre_municipio
+        description: "Nombre del municipio"
+        tests:
+          - not_null
+
+      - name: nombre_provincia
+        description: "Nombre de la provincia"
+
+      - name: nombre_comunidad
+        description: "Nombre de la comunidad autónoma"
+
+      - name: cod_provincia
+        description: "Código numérico de la provincia"
+
+      - name: cod_municipio
+        description: "Código numérico del municipio"
+
   - name: stg__estaciones
     description: >
       Vista staging de estaciones de transporte. Contiene la información
@@ -140,6 +175,12 @@ models:
 
       - name: id_municipio
         description: Ciudad de residencia del pasajero.
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg__municipios')
+                field: id_municipio
 
   - name: stg__ventas
     description: >

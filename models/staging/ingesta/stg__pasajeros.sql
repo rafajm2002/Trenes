@@ -14,7 +14,7 @@ renamed as (
         fecha_nacimiento,
         regexp_replace(telefono, '\\s+', '') as telefono,
         lower(trim(email)) as email,
-        id_municipio as ciudad,
+        id_municipio,
 
     from source
 
@@ -39,5 +39,5 @@ select
     fecha_nacimiento,
     telefono,
     email,
-    ciudad
+    id_municipio
 from deduplicated
