@@ -39,6 +39,9 @@ final AS (
             WHEN 12 THEN 'diciembre'
         END AS mes,
 
+        TO_CHAR(date_day, 'YYYY-MM') AS anio_mes,
+        (YEAR(date_day) * 100 + MONTH(date_day)) AS anio_mes_orden
+
         DAY(date_day) AS dia,
 
         DAYOFWEEK(date_day) AS dia_semana_numero,
