@@ -1,13 +1,581 @@
 version: 2
 
 models:
-  - name: dim_time
-    description: Tabla de fechas para la semantic layer
-
-    time_spine:
-      standard_granularity_column: date_day
-
+  - name: fct__ventas
+    description: ""
     columns:
-      - name: date_day
-        description: Día
-        granularity: day
+      - name: id_venta
+        data_type: varchar
+        description: ""
+
+      - name: id_viaje
+        data_type: varchar
+        description: ""
+
+      - name: id_pasajero
+        data_type: varchar
+        description: ""
+
+      - name: tipo
+        data_type: varchar
+        description: ""
+
+      - name: num_tickets_vendidos
+        data_type: number
+        description: ""
+
+      - name: importe
+        data_type: float
+        description: ""
+
+      - name: canal
+        data_type: varchar
+        description: ""
+
+      - name: fecha_origen
+        data_type: timestamp_ntz
+        description: ""
+
+      - name: fecha_destino
+        data_type: timestamp_ntz
+        description: ""
+
+      - name: fecha_compra
+        data_type: timestamp_ntz
+        description: ""
+
+      - name: id_estacion_origen
+        data_type: varchar
+        description: ""
+
+      - name: id_estacion_destino
+        data_type: varchar
+        description: ""
+
+      - name: codigo_estacion_origen
+        data_type: varchar
+        description: ""
+
+      - name: estacion_origen
+        data_type: varchar
+        description: ""
+
+      - name: municipio_origen
+        data_type: varchar
+        description: ""
+
+      - name: provincia_origen
+        data_type: varchar
+        description: ""
+
+      - name: codigo_estacion_destino
+        data_type: varchar
+        description: ""
+
+      - name: estacion_destino
+        data_type: varchar
+        description: ""
+
+      - name: municipio_destino
+        data_type: varchar
+        description: ""
+
+      - name: provincia_destino
+        data_type: varchar
+        description: ""
+
+      - name: nombre
+        data_type: varchar
+        description: ""
+
+      - name: apellidos
+        data_type: varchar
+        description: ""
+
+      - name: dni
+        data_type: varchar
+        description: ""
+
+      - name: fecha_nacimiento
+        data_type: date
+        description: ""
+
+      - name: telefono
+        data_type: varchar
+        description: ""
+
+      - name: email
+        data_type: varchar
+        description: ""
+
+      - name: id_municipio
+        data_type: varchar
+        description: ""
+
+  - name: fct__viajes
+    description: ""
+    columns:
+      - name: id_viaje
+        data_type: varchar
+        description: ""
+
+      - name: id_ruta
+        data_type: varchar
+        description: ""
+
+      - name: id_tren
+        data_type: varchar
+        description: ""
+
+      - name: fecha_viaje
+        data_type: date
+        description: ""
+
+      - name: hora_salida
+        data_type: timestamp_ntz
+        description: ""
+
+      - name: hora_llegada
+        data_type: timestamp_ntz
+        description: ""
+
+      - name: distancia_km
+        data_type: float
+        description: ""
+
+      - name: duracion_min
+        data_type: number
+        description: ""
+
+      - name: tipo_servicio
+        data_type: varchar
+        description: ""
+
+      - name: fecha_carga
+        data_type: timestamp_ntz
+        description: ""
+
+      - name: servicio
+        data_type: varchar
+        description: ""
+
+      - name: id_estacion_origen
+        data_type: varchar
+        description: ""
+
+      - name: nombre_estacion_origen
+        data_type: varchar
+        description: ""
+
+      - name: id_estacion_destino
+        data_type: varchar
+        description: ""
+
+      - name: nombre_estacion_destino
+        data_type: varchar
+        description: ""
+
+      - name: num_paradas
+        data_type: number
+        description: ""
+
+      - name: distancia_total_km
+        data_type: float
+        description: ""
+
+      - name: duracion_total_min
+        data_type: number
+        description: ""
+
+      - name: velocidad_media_kmh
+        data_type: float
+        description: ""
+
+      - name: frecuencia_diaria
+        data_type: number
+        description: ""
+
+      - name: modelo
+        data_type: varchar
+        description: ""
+
+      - name: proposito
+        data_type: varchar
+        description: ""
+
+      - name: ancho_via_m
+        data_type: float
+        description: ""
+
+      - name: velocidad_max_kmh
+        data_type: number
+        description: ""
+
+      - name: motores
+        data_type: varchar
+        description: ""
+
+      - name: potencia_total_kw
+        data_type: float
+        description: ""
+
+      - name: tension_kv
+        data_type: number
+        description: ""
+
+      - name: masa_sin_carga_t
+        data_type: float
+        description: ""
+
+      - name: longitud_total_m
+        data_type: float
+        description: ""
+
+      - name: plazas_sentadas
+        data_type: number
+        description: ""
+
+      - name: senalizacion
+        data_type: varchar
+        description: ""
+
+      - name: constructor
+        data_type: varchar
+        description: ""
+
+      - name: unidades_construidas
+        data_type: number
+        description: ""
+
+      - name: id_retraso
+        data_type: varchar
+        description: ""
+
+      - name: minutos_retraso
+        data_type: number
+        description: ""
+
+      - name: motivo_retraso
+        data_type: varchar
+        description: ""
+
+      - name: relacion_meteorologica
+        data_type: boolean
+        description: ""
+
+  - name: dim__pasajeros
+    description: ""
+    columns:
+      - name: id_pasajero
+        data_type: varchar
+        description: ""
+
+      - name: nombre
+        data_type: varchar
+        description: ""
+
+      - name: apellidos
+        data_type: varchar
+        description: ""
+
+      - name: dni
+        data_type: varchar
+        description: ""
+
+      - name: fecha_nacimiento
+        data_type: date
+        description: ""
+
+      - name: telefono
+        data_type: varchar
+        description: ""
+
+      - name: email
+        data_type: varchar
+        description: ""
+
+      - name: id_municipio
+        data_type: varchar
+        description: ""
+
+      - name: codigo_postal
+        data_type: varchar
+        description: ""
+
+      - name: nombre_municipio
+        data_type: varchar
+        description: ""
+
+      - name: nombre_provincia
+        data_type: varchar
+        description: ""
+
+      - name: nombre_comunidad
+        data_type: varchar
+        description: ""
+
+      - name: cod_provincia
+        data_type: varchar
+        description: ""
+
+  - name: dim__estaciones
+    description: ""
+    columns:
+      - name: id_estacion
+        data_type: varchar
+        description: ""
+
+      - name: codigo_estacion
+        data_type: varchar
+        description: ""
+
+      - name: nombre_estacion
+        data_type: varchar
+        description: ""
+
+      - name: latitud
+        data_type: number
+        description: ""
+
+      - name: longitud
+        data_type: number
+        description: ""
+
+      - name: direccion
+        data_type: varchar
+        description: ""
+
+      - name: cp
+        data_type: varchar
+        description: ""
+
+      - name: municipio
+        data_type: varchar
+        description: ""
+
+      - name: provincia
+        data_type: varchar
+        description: ""
+
+      - name: pais
+        data_type: varchar
+        description: ""
+
+      - name: cercanias
+        data_type: varchar
+        description: ""
+
+      - name: feve
+        data_type: varchar
+        description: ""
+
+      - name: comun
+        data_type: varchar
+        description: ""
+
+  - name: dim__municipios
+    description: ""
+    columns:
+      - name: id_municipio
+        data_type: varchar
+        description: ""
+
+      - name: codigo_postal
+        data_type: varchar
+        description: ""
+
+      - name: nombre_poblacion
+        data_type: varchar
+        description: ""
+
+      - name: nombre_municipio
+        data_type: varchar
+        description: ""
+
+      - name: nombre_provincia
+        data_type: varchar
+        description: ""
+
+      - name: nombre_comunidad
+        data_type: varchar
+        description: ""
+
+      - name: cod_provincia
+        data_type: varchar
+        description: ""
+
+      - name: cod_municipio
+        data_type: varchar
+        description: ""
+  
+  - name: dim__trenes
+    description: ""
+    columns:
+      - name: id_tren
+        data_type: varchar
+        description: ""
+
+      - name: modelo
+        data_type: varchar
+        description: ""
+
+      - name: proposito
+        data_type: varchar
+        description: ""
+
+      - name: ancho_via_m
+        data_type: float
+        description: ""
+
+      - name: velocidad_max_kmh
+        data_type: number
+        description: ""
+
+      - name: motores
+        data_type: varchar
+        description: ""
+
+      - name: potencia_total_kw
+        data_type: float
+        description: ""
+
+      - name: tension_kv
+        data_type: number
+        description: ""
+
+      - name: masa_sin_carga_t
+        data_type: float
+        description: ""
+
+      - name: longitud_total_m
+        data_type: float
+        description: ""
+
+      - name: plazas_sentadas
+        data_type: number
+        description: ""
+
+      - name: senalizacion
+        data_type: varchar
+        description: ""
+
+      - name: constructor
+        data_type: varchar
+        description: ""
+
+      - name: unidades_construidas
+        data_type: number
+        description: ""
+
+  - name: dim__rutas
+    description: ""
+    columns:
+      - name: id_ruta
+        data_type: varchar
+        description: ""
+
+      - name: servicio
+        data_type: varchar
+        description: ""
+
+      - name: id_estacion_origen
+        data_type: varchar
+        description: ""
+
+      - name: nombre_estacion_origen
+        data_type: varchar
+        description: ""
+
+      - name: id_estacion_destino
+        data_type: varchar
+        description: ""
+
+      - name: nombre_estacion_destino
+        data_type: varchar
+        description: ""
+
+      - name: num_paradas
+        data_type: number
+        description: ""
+
+      - name: distancia_total_km
+        data_type: float
+        description: ""
+
+      - name: duracion_total_min
+        data_type: number
+        description: ""
+
+      - name: velocidad_media_kmh
+        data_type: float
+        description: ""
+
+      - name: frecuencia_diaria
+        data_type: number
+        description: ""
+
+  - name: dim__retrasos
+    description: ""
+    columns:
+      - name: id_retraso
+        data_type: varchar
+        description: ""
+
+      - name: id_viaje
+        data_type: varchar
+        description: ""
+
+      - name: minutos_retraso
+        data_type: number
+        description: ""
+
+      - name: motivo_retraso
+        data_type: varchar
+        description: ""
+
+      - name: relacion_meteorologica
+        data_type: boolean
+        description: ""
+
+  - name: dim__tiempo
+    description: ""
+    columns:
+      - name: fecha_dia
+        data_type: date
+        description: ""
+
+      - name: anio
+        data_type: number
+        description: ""
+
+      - name: mes_numero
+        data_type: number
+        description: ""
+
+      - name: mes
+        data_type: varchar
+        description: ""
+
+      - name: dia
+        data_type: number
+        description: ""
+
+      - name: dia_semana_numero
+        data_type: number
+        description: ""
+
+      - name: dia_semana
+        data_type: varchar
+        description: ""
+
+      - name: semana
+        data_type: number
+        description: ""
+
+      - name: trimestre
+        data_type: number
+        description: ""
+
+      - name: es_fin_de_semana
+        data_type: boolean
+        description: ""
