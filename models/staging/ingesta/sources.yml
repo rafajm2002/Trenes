@@ -10,6 +10,33 @@ sources:
     schema: ingesta
 
     tables:
+      - name: municipios
+        description: "Tabla de municipios y códigos postales de España"
+
+        columns:
+          - name: id_municipio
+            description: "Identificador único del registro"
+
+          - name: codigo_postal
+            description: "Código postal"
+
+          - name: nombre_poblacion
+            description: "Nombre de la población"
+
+          - name: nombre_municipio
+            description: "Nombre del municipio"
+
+          - name: nombre_provincia
+            description: "Nombre de la provincia"
+
+          - name: nombre_comunidad
+            description: "Nombre de la comunidad autónoma"
+
+          - name: cod_provincia
+            description: "Código de provincia"
+
+          - name: cod_municipio
+            description: "Código del municipio"
       - name: estaciones
         description: >
           Tabla que contiene información de estaciones de transporte
